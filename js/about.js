@@ -27,11 +27,46 @@ function parseTweets(runkeeper_tweets) {
 	earliestDateString = earliestTweet.time.toLocaleDateString('en-US', options);
 	latestDateString = latestTweet.time.toLocaleDateString('en-US', options);
 
+	const numTweets = tweet_array.length;
+	let numCompleted = 0;
+	let numLive = 0;
+	let numAchievement = 0;
+	let numMisc = 0;
+
+	for (let i = 0; i < numTweets; i++) {
+		const tweet = tweet_array[i];
+
+		if (tweet.source == "completed_event") {
+			numCompleted++;
+		} else if (tweet.source == "live_event") {
+			numLive++;
+		} else if (tweet.source == "achievement") {
+			numAchievement++;
+		} else {
+			numMisc++;
+		}
+	}
+
+	const completedPct = math.format((numCompleted / numTweets) * 100, {notation: "fixed", precision: 2});
+	const livePct = math.format((numLive / numTweets) * 100, {notation: "fixed", precision: 2});
+	const achievementPct = math.format((numAchievement / numTweets) * 100, {notation: "fixed", precision: 2});
+	const miscPct = math.format((numMisc / numTweets) * 100, {notation: "fixed", precision: 2});
+
 	//This line modifies the DOM, searching for the tag with the numberTweets ID and updating the text.
 	//It works correctly, your task is to update the text of the other tags in the HTML file!
 	document.getElementById('numberTweets').innerText = tweet_array.length;	
 	document.getElementById('firstDate').textContent = earliestDateString;
 	document.getElementById('lastDate').textContent = latestDateString;
+
+	document.querySelector('.completedEvents').textContent = numCompleted;
+	document.querySelector('.liveEvents').textContent = numLive;
+	document.querySelector('.achievements').textContent = numAchievement;
+	document.querySelector('.miscellaneous').textContent = numMisc;
+	
+	document.querySelector('.completedEventsPct').textContent = `${completedPct}%`;
+	document.querySelector('.liveEventsPct').textContent = `${livePct}%`;
+	document.querySelector('.achievementsPct').textContent = `${achievementPct}%`;
+	document.querySelector('.miscellaneousPct').textContent = `${miscPct}%`;
 }
 
 //Wait for the DOM to load

@@ -14,7 +14,7 @@ class Tweet {
             return 'completed_event';
         } else if (this.text.includes("right now")) {
             return 'live_event';
-        } else if (this.text.startsWith("Achieved")) {
+        } else if (this.text.startsWith("Achieved") || this.text.includes("set a goal")) {
             return 'achievement'
         } else {
             return 'miscellaneous';
