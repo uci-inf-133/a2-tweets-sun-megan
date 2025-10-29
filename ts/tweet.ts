@@ -86,7 +86,28 @@ class Tweet {
             return 0;
         }
         //TODO: prase the distance from the text of the tweet
-        return 0;
+        let unit = "";
+        let distance = 0;
+        let text = this.text;
+        let tweetParts = text.split("");
+
+        if (text.includes("km")) {
+            unit = "km";
+        } else if (text.includes("mi")) {
+            unit = "mi";
+        }
+
+        let distanceIndex = 0;
+        for (let i = 0; i < tweetParts.length; i++) {
+            if (tweetParts[i] == unit) {
+                distanceIndex = i - 1;
+                break
+            }
+        }
+
+        distance = parseInt(tweetParts[distanceIndex])
+
+        return unit == "km" ? distance * 1.609 : distance;
     }
 
     getHTMLTableRow(rowNumber:number):string {
