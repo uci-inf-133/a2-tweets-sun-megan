@@ -17,15 +17,16 @@ function parseTweets(runkeeper_tweets) {
 		return current.time > latest.time ? current: latest;
 	});
 	
-	const options = {
+	const dateFormats = {
   		weekday: "long",
   		year: "numeric",
   		month: "long",
   		day: "numeric",
+		timeZone: "UTC"
 	};
 
-	earliestDateString = earliestTweet.time.toLocaleDateString('en-US', options);
-	latestDateString = latestTweet.time.toLocaleDateString('en-US', options);
+	earliestDateString = earliestTweet.time.toLocaleDateString('en-US', dateFormats);
+	latestDateString = latestTweet.time.toLocaleDateString('en-US', dateFormats);
 
 	const numTweets = tweet_array.length;
 	let numCompleted = 0;
@@ -52,6 +53,12 @@ function parseTweets(runkeeper_tweets) {
 	const achievementPct = math.format((numAchievement / numTweets) * 100, {notation: "fixed", precision: 2});
 	const miscPct = math.format((numMisc / numTweets) * 100, {notation: "fixed", precision: 2});
 
+	const numWritten = tweet_array.filter(
+		text => text.source == "completed_event" && text.written
+	).length;
+
+	const writtenPct = math.format((numWritten / numCompleted) * 100, {notation: "fixed", precision: 2});
+
 	//This line modifies the DOM, searching for the tag with the numberTweets ID and updating the text.
 	//It works correctly, your task is to update the text of the other tags in the HTML file!
 	document.getElementById('numberTweets').innerText = tweet_array.length;	
@@ -62,11 +69,13 @@ function parseTweets(runkeeper_tweets) {
 	document.querySelector('.liveEvents').textContent = numLive;
 	document.querySelector('.achievements').textContent = numAchievement;
 	document.querySelector('.miscellaneous').textContent = numMisc;
-	
+	document.querySelector('.written').textContent = numWritten;
+
 	document.querySelector('.completedEventsPct').textContent = `${completedPct}%`;
 	document.querySelector('.liveEventsPct').textContent = `${livePct}%`;
 	document.querySelector('.achievementsPct').textContent = `${achievementPct}%`;
 	document.querySelector('.miscellaneousPct').textContent = `${miscPct}%`;
+	document.querySelector('.writtenPct').textContent = `${writtenPct}%`;
 }
 
 //Wait for the DOM to load
