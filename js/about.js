@@ -65,7 +65,7 @@ function parseTweets(runkeeper_tweets) {
 	document.getElementById('firstDate').textContent = earliestDateString;
 	document.getElementById('lastDate').textContent = latestDateString;
 
-	document.querySelector('.completedEvents').textContent = numCompleted;
+	document.querySelectorAll('.completedEvents').forEach(element => {element.textContent = numCompleted});;
 	document.querySelector('.liveEvents').textContent = numLive;
 	document.querySelector('.achievements').textContent = numAchievement;
 	document.querySelector('.miscellaneous').textContent = numMisc;

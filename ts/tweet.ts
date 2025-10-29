@@ -33,35 +33,7 @@ class Tweet {
             text = text.substring(0, urlIndex);
        }
 
-       text = text.replace("#Runkeeper", "");
-
-       const defaultPhrases = [
-        "Just completed",
-        "Just posted",
-        "with @Runkeeper",
-        "Check it out!",
-        "Watch my run",
-        "Achieved a new personal record",
-        "with #Runkeeper"
-       ];
-
-       for (let i=0; i < defaultPhrases.length; i++) {
-        const phrase = defaultPhrases[i];
-
-        text = (text.replace(phrase, "")).replace(phrase.toLowerCase(), "");
-       }
-
-       text = text
-        .split("-").join("")
-        .split(":").join("")
-        .split(".").join("")
-        .split(",").join("")
-        .split("!").join("")
-        .split("@").join("")
-        .split("#").join("")
-        .trim();
-
-        return text.length > 0;
+       return text.includes(" - ");
     }
 
     get writtenText():string {
