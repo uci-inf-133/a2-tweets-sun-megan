@@ -58,6 +58,26 @@ class Tweet {
             return "unknown";
         }
         //TODO: parse the activity type from the text of the tweet
+        let text = this.text;
+        
+        if (text.includes("ski run")) {
+            return "ski";
+        } else if (text.includes("run")) {
+            return "run";
+        } else if (text.includes("bike")) {
+            return "bike";
+        } else if (text.includes("walk")) {
+            return "walk";
+        } else if (text.includes("yoga")) {
+            return "yoga";
+        } else if (text.includes("workout")) {
+            return "workout";
+        } else if (text.includes("chair ride")) {
+            return "chair ride";
+        } else if (text.includes("snowboard")) {
+            return "snowboard";
+        }
+
         return "";
     }
 
