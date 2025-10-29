@@ -89,7 +89,24 @@ function parseTweets(runkeeper_tweets) {
 	const activityCounts = Array.from(activityTypes.entries())
 	.map(([activity, data]) => ({ activity, count: data.totalCount }));
 
-	activity_vis_spec = {
+		const mostCommonActivities = Array.from(activityTypes.entries())
+	.filter(([_, data]) => data.totalCount > 0)
+	.sort((a, b) => b[1].totalCount - a[1].totalCount)
+	.slice(0, 3)
+	.map(([activity]) => activity);
+
+	const distancesByDay = tweet_array
+	.filter(tweet => tweet.source === "completed_event" && mostCommonActivities.includes(tweet.activityType))
+	.map(tweet => ({
+		activity: tweet.activityType,
+		distance: tweet.distance,
+		day: tweet.time.getUTCDay(),
+ 	}));
+
+	const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+	distancesByDay.forEach(d => d.dayName = dayNames[d.day]);
+
+	const activityCountsSpec = {
 		"$schema": "https://vega.github.io/schema/vega-lite/v5.json",
 	  	"description": "A graph of the number of Tweets containing each type of activity.",
 	  	"data": {
@@ -102,11 +119,51 @@ function parseTweets(runkeeper_tweets) {
     		"y": {"field": "count", "type": "quantitative", "title": "Number of Tweets"}
 		}
 	};
-	vegaEmbed('#activityVis', activity_vis_spec, {actions:false});
+	vegaEmbed('#activityVis', activityCountsSpec, {actions:false});
 
 	//TODO: create the visualizations which group the three most-tweeted activities by the day of the week.
+
+	const distancePointsSpec = {
+		"$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+	  	"description": "A graph of the distances by day of the week for the top 3 activities",
+	  	"data": {
+			"values": distancesByDay
+		},
+		"mark": "point",
+		"encoding": {
+			"x": {"field": "dayName", "type": "ordinal", "title": "Day of Week", "sort": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]},
+    		"y": {"field": "distance", "type": "quantitative", "title": "Distance (mi)"},
+			"color": {"field": "activity", "type": "nominal", "title": "Activity Type"},
+			"tooltip": [
+					{"field": "activity", "type": "nominal"},
+					{"field": "distance", "type": "quantitative"},
+					{"field": "dayName", "type": "ordinal"}
+			]
+		}
+	};
+	vegaEmbed('#distanceVis', distancePointsSpec, {actions:false});
+
 	//Use those visualizations to answer the questions about which activities tended to be longest and when.
 
+	const distanceMeanSpec = {
+		"$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+	  	"description": "A graph of the mean distance by day for the top 3 activities",
+	  	"data": {
+			"values": distancesByDay
+		},
+		"mark": "point",
+		"encoding": {
+			"x": {"field": "dayName", "type": "ordinal", "title": "Day of Week", "sort": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]},
+    		"y": {"field": "distance", "type": "quantitative", "aggregate": "mean", "title": "Average Distance (mi)"},
+			"color": {"field": "activity", "type": "nominal", "title": "Activity Type"},
+			"tooltip": [
+					{"field": "activity", "type": "nominal"},
+					{"field": "distance", "type": "quantitative", "aggregate": "mean"},
+					{"field": "dayName", "type": "ordinal"}
+			]
+		}
+	};
+	vegaEmbed('#distanceVisAggregated', distanceMeanSpec, {actions:false});
 }
 
 //Wait for the DOM to load
