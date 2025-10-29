@@ -32,7 +32,6 @@ class Tweet {
         if (urlIndex !== -1) {
             text = text.substring(0, urlIndex);
        }
-
        return text.includes(" - ");
     }
 
@@ -80,9 +79,9 @@ class Tweet {
             return "snowboard";
         } else if (text.includes("hike")) {
             return "hike";
+        } else {
+            return "other";
         }
-
-        return "";
     }
 
     get distance():number {
@@ -109,6 +108,15 @@ class Tweet {
 
     getHTMLTableRow(rowNumber:number):string {
         //TODO: return a table row which summarizes the tweet with a clickable link to the RunKeeper activity
-        return "<tr></tr>";
+        const urlLink = this.text.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>');
+
+        const activity = this.activityType? this.activityType : "";
+
+    return `<tr>
+                <td>${rowNumber}</td>
+                <td>${activity}</td>
+                <td>${urlLink}</td>
+            </tr>`;
+
     }
 }

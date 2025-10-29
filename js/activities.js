@@ -19,7 +19,8 @@ function parseTweets(runkeeper_tweets) {
 		["yoga", {totalCount: 0, totalDistance: 0}],
 		["chair ride", {totalCount: 0, totalDistance: 0}],
 		["snowboard", {totalCount: 0, totalDistance: 0}],
-		["hike", {totalCount: 0, totalDistance: 0}]
+		["hike", {totalCount: 0, totalDistance: 0}],
+		["other", {totalCount: 0, totalDistance: 0}]
 	]);
 
 	let weekdayTotal = 0;
