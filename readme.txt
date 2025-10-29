@@ -12,11 +12,15 @@
 
 
 3. What online resources did you consult when completing this assignment? (list sites like StackOverflow or specific URLs for tutorials; describe queries to Generative AI or use of AI-based code completion)
+- https://mathjs.org/docs/reference/functions/format.html
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleDateString
+- https://www.w3schools.com/jsreF/met_document_queryselectorall.asp
 
 
 
 4. What classmates or other individuals did you consult as part of this assignment? What did you discuss?
-
+- Mikayla McGrath helped me resolve an issue with my date formatting. She explained to me that I needed to make the output to my local timezone.
 
 
 5. Is there anything special we need to know in order to run your code?
