@@ -60,29 +60,10 @@ function parseTweets(runkeeper_tweets) {
 	const mostCommon = Array.from(activityTypes.entries())
 	.sort((a, b) => b[1].totalCount - a[1].totalCount);
 
-	const avgDistances = Array.from(activityTypes.entries())
-	.map(([type, v]) => ({type, avg: v.totalDistance / v.totalCount}))
-	.sort((a, b) => b.avg - a.avg);
-
-	const avgWeekday = weekdayCount > 0 ? weekdayTotal / weekdayCount: 0;
-	const avgWeekend = weekendCount > 0 ? weekendTotal / weekendCount: 0;
-	
-	let whenLonger = "";
-	if (avgWeekend > avgWeekday) {
-		whenLonger = "weekends";
-	} else if (avgWeekday > avgWeekend) {
-		whenLonger = "weekdays";
-	} else {
-		whenLonger = "both weekdays and weekends"
-	}
-
 	document.getElementById("numberActivities").textContent = numActivities;
 	document.getElementById("firstMost").textContent = mostCommon[0][0];
 	document.getElementById("secondMost").textContent = mostCommon[1][0];
 	document.getElementById("thirdMost").textContent = mostCommon[2][0];
-	document.getElementById("longestActivityType").textContent = avgDistances[0].type;
-	document.getElementById("shortestActivityType").textContent = avgDistances[numActivities - 1].type;
-	document.getElementById("weekdayOrWeekendLonger").textContent = whenLonger;
 
 	//TODO: create a new array or manipulate tweet_array to create a graph of the number of tweets containing each type of activity.
 
@@ -163,7 +144,19 @@ function parseTweets(runkeeper_tweets) {
 			]
 		}
 	};
-	vegaEmbed('#distanceVisAggregated', distanceMeanSpec, {actions:false});
+	// vegaEmbed('#distanceVisAggregated', distanceMeanSpec, {actions:false});
+
+	let showingMean = false;
+	const distanceDiv = "#distanceVis";
+
+	document.getElementById("aggregate").addEventListener("click", () => {
+		if (showingMean) {
+			vegaEmbed(distanceDiv, distancePointsSpec, {actions:false});
+		} else {
+			vegaEmbed(distanceDiv, distanceMeanSpec, {actions:false});
+		}
+		showingMean = !showingMean
+	});
 }
 
 //Wait for the DOM to load
