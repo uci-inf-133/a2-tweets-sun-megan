@@ -64,6 +64,8 @@ class Tweet {
             return "ski";
         } else if (text.includes("run")) {
             return "run";
+        } else if (text.includes("mtn bike")) {
+            return "mtn bike";
         } else if (text.includes("bike")) {
             return "bike";
         } else if (text.includes("walk")) {
@@ -76,6 +78,8 @@ class Tweet {
             return "chair ride";
         } else if (text.includes("snowboard")) {
             return "snowboard";
+        } else if (text.includes("hike")) {
+            return "hike";
         }
 
         return "";
@@ -86,28 +90,21 @@ class Tweet {
             return 0;
         }
         //TODO: prase the distance from the text of the tweet
-        let unit = "";
-        let distance = 0;
-        let text = this.text;
-        let tweetParts = text.split("");
+        const text = this.text.toLowerCase();
+	    const match = text.match(/([\d.]+)\s*(km|mi)/);
 
-        if (text.includes("km")) {
-            unit = "km";
-        } else if (text.includes("mi")) {
-            unit = "mi";
+	    if (!match) {
+		    return 0;
+	    }
+
+        let distance = parseFloat(match[1]);
+        const unit = match[2];
+
+        if (unit === "km") {
+            distance /= 1.609;
         }
 
-        let distanceIndex = 0;
-        for (let i = 0; i < tweetParts.length; i++) {
-            if (tweetParts[i] == unit) {
-                distanceIndex = i - 1;
-                break
-            }
-        }
-
-        distance = parseInt(tweetParts[distanceIndex])
-
-        return unit == "km" ? distance * 1.609 : distance;
+        return unit == "km" ? distance / 1.609 : distance;
     }
 
     getHTMLTableRow(rowNumber:number):string {

@@ -16,7 +16,8 @@
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleDateString
 - https://www.w3schools.com/jsreF/met_document_queryselectorall.asp
-
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/entries
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp
 
 
 4. What classmates or other individuals did you consult as part of this assignment? What did you discuss?
