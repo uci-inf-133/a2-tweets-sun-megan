@@ -12,7 +12,7 @@ function parseTweets(runkeeper_tweets) {
 		return new Tweet(tweet.text, tweet.created_at);
 	});
 
-	writtenTweets = tweet_array.filter(tweet => tweet.written);
+	writtenTweets = tweet_array.filter(tweet => tweet.source == "completed_event" && tweet.written);
 }
 
 function addEventHandlerForSearch() {
